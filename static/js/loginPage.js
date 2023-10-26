@@ -9,12 +9,10 @@ $(() => {
         const username = serializedForm[0].value;
         const password = serializedForm[1].value;
         const rememberMe = serializedForm[2]?true:false;
-        error = false;
 
         if (username == ""){
             $("#username_login").parent().addClass('invalid');
             $('#username_login').next().find('.error-msg .msg-text').text('You must specify a username');
-            error = true;
             return false;
         } else if (username.includes(" ")) {
             $("#username_login").parent().addClass('invalid');

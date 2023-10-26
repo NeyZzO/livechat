@@ -5,7 +5,7 @@ export async function checkIn(req, res, next){
     const user = await User.findOne({where: {uuid: req.session.uuid}});
     if(user == null) {
         req.sessionErrorMessage = "Invalid session";
-        res.redirect('/login');
+        res.redirect('/auth/login');
         return;
     }
     req.user = user;

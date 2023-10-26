@@ -8,8 +8,8 @@ const profile = Router();
 profile.use(serveFavicon(path.resolve("static/wa.png")))
 
 profile.get('/', checkIn, async (req, res) =>{
-    const {username, email, rank, profilePicture, uuid} = req.user;
-    res.render('profile/profile.ejs', {username, email, rank, profilePicture, uuid})
+    const {username, email, rank, profilePicture, uuid, certified} = req.user;
+    res.render('profile/profile.ejs', {username, email, rank, profilePicture, uuid, certified})
 })
 profile.get('/avatar/:uuid', async (req, res)=> {
     const uuid = req.params.uuid;

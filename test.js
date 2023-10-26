@@ -1,5 +1,6 @@
 import Database from "./controllers/databaseController.js";
 import { hashPassword } from "./controllers/hashController.js";
+import MailController from "./controllers/mailController.js";
 import User from "./models/User.js";
 (async () => {
     // const db = Database.getCon();
@@ -21,4 +22,4 @@ import User from "./models/User.js";
     } catch (err){
         console.error(err)
     }
-})();
+})(); 

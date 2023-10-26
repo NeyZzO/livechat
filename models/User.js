@@ -39,12 +39,15 @@ User.init({
         type: DataTypes.INTEGER,
         defaultValue: 0,
         comment: "0 = user | 1 = moderator | 2 = administrator"
+    },
+    certified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 }, {
     sequelize: Database.getCon(),
     tableName: "users"
 });
-
 
 (async () => {
     await User.sync();

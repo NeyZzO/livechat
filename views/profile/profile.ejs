@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile of @<%= username %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
     <img src="http://localhost:3000/profile/avatar/<%= uuid %>" alt="photo de profil" srcset="">
-    <h1><%= username %></h1>
+    <h1><%= username %><% if (certified){ %> <i class="bi bi-patch-check-fill" style="color: #009579; background-color: #009579;"></i><% } %></h1>
     <h3><%= email %></h3>
     <% if (rank == 1) { %>
         <p style="color: green;">Moderateur</p>

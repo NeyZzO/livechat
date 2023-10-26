@@ -14,6 +14,7 @@ import MySQLStore from "express-mysql-session";
 import dotenv from 'dotenv';
 import serveFavicon from "serve-favicon";
 import path from "path";
+import MailController from "./controllers/mailController.js";
 dotenv.config();
 const mstore = MySQLStore(session);
 
@@ -71,12 +72,16 @@ app.get("/", (req, res) => {
 })
 
 
+MailController.startController();
+
+
 io.on('connection', (socket) => {
     console.log("New user connected to socket");
     socket.on("disconnect", () => {
         console.log("A user disconnected")
     })
 })
+
 server.listen(3000, () => {
     console.log(chalk.green('Server started listening on port 3000'))
 })
