@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile of @<%= username %></title>
+</head>
+<body>
+    <img src="http://localhost:3000/profile/avatar/<%= uuid %>" alt="photo de profil" srcset="">
+    <h1><%= username %></h1>
+    <h3><%= email %></h3>
+    <% if (rank == 1) { %>
+        <p style="color: green;">Moderateur</p>
+    <% } else if(rank == 2){%>
+        <p style="color: red;">Administrateur</p>
+    <% } %>
+
+    <a href="/auth/logout">Log out</a>
+</body>
+</html>
