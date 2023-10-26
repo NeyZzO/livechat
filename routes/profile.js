@@ -2,8 +2,10 @@ import { Router } from "express";
 import User from "../models/User.js";
 import path from 'path';
 import { checkIn } from "../controllers/protectionMiddleware.js";
+import serveFavicon from "serve-favicon";
 
 const profile = Router();
+profile.use(serveFavicon(path.resolve("static/wa.png")))
 
 profile.get('/', checkIn, async (req, res) =>{
     const {username, email, rank, profilePicture, uuid} = req.user;

@@ -12,12 +12,14 @@ import Database from "./controllers/databaseController.js";
 import profile from "./routes/profile.js";
 import MySQLStore from "express-mysql-session";
 import dotenv from 'dotenv';
+import serveFavicon from "serve-favicon";
+import path from "path";
 dotenv.config();
 const mstore = MySQLStore(session);
 
 const options = {
 	host: process.env.DB_HOST,
-	port: process.env.DB_PORT,
+    port: process.env.DB_PORT,
 	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
 	database: process.env.DB_NAME,
@@ -40,7 +42,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com","'safe-inline'", "'unsafe-inline'"],
+            scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com", "'unsafe-inline'"],
             styleSrc: ["'self'", 'https://cdnjs.cloudflare.com/', 'fonts.googleapis.com', 'https://cdn.jsdelivr.net'],
         }
     }
@@ -62,6 +64,7 @@ app.use(session({
 }))
 app.use('/auth', auth);
 app.use('/profile', profile);
+app.use(serveFavicon(path.resolve('static/wa.png')));
 
 app.get("/", (req, res) => {
     res.render("index");

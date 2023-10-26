@@ -13,9 +13,18 @@ auth.get("/login", async (req, res) => {
 auth.post("/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    if (username == undefined || password == undefined)
-        return res.status(422).send({ message: "Invalid fields" });
-
+    const rememberMe = req.body.rememberMe;
+    if (username == undefined || password == undefined) return res.status(422).send({error: "Password or username", message: "Invalid fields (undefined)"})
+    if (!(typeof rememberMe === "boolean") && rememberMe != null) return res.status(422).send({ error: "Rememberme", message: "Invalid fields (wrong type (must be boolean))" })
+    if (username == "") {
+        return res.status(422).send({ error: "username", message: "You must specify a username." });
+    } else if (username.includes(" ")) {
+        return res.status(422).send({ error: "username", message: "Username can't contain spaces." });
+    } else if (password == "") {
+        return res.status(422).send({error: "password", message: "You must specify a password."});
+    } else if (password.includes(" ")) {
+        return res.status(422).send({error: "password", message: "Password can't contain spaces."});
+    }
     const user =
         (await User.findOne({ where: { email: username } })) ||
         (await User.findOne({ where: { username: username } }));
@@ -25,9 +34,15 @@ auth.post("/login", async (req, res) => {
     if (!test) return res.status(403).send({ message: "Invalid password" });
     // set session data and redirect to dashboard
     req.session.uuid = user.uuid;
+    if (rememberMe) req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
     console.log(`${user.email} logged in`);
     res.status(200).send({message: "logged in", loggedin: true})
 });
+
+// Registering
+auth.get('/register', async (req, res) => {
+    res.render('register')
+})
 
 auth.get('/logout', (req, res) => {
     req.session.destroy((err) => {

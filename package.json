@@ -25,10 +25,12 @@
     "express-mysql-session": "^3.0.0",
     "express-session": "^1.17.3",
     "helmet": "^7.0.0",
+    "jquery": "^3.7.1",
     "mariadb": "^3.2.2",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "sequelize": "^6.33.0",
+    "serve-favicon": "^2.5.0",
     "socket.io": "^4.7.2",
     "sqlite3": "^5.1.6"
   }

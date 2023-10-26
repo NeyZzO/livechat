@@ -5,11 +5,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Login & Registration Form</title>
+        <title>DagoChat - Login</title>
         <!---Custom CSS File--->
         <link rel="stylesheet" href="css/login.css" />
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="shortcut icon" href="wa.png" type="image/x-icon">
 
     </head>
     <body>
@@ -21,16 +22,20 @@
                     <div class="form-action">
                         <input type="text" placeholder="Enter your email or username" name="username" id="username_login" class="invalid"/>
                         <div class="info-msg">
-                            <p class="error-msg"><i class="bi bi-exclamation-circle"></i> This is an error</p>
-                            <p class="valid-msg"><i class="bi bi-check-circle"></i> Valid</p>
+                            <p class="error-msg"><i class="bi bi-exclamation-circle"></i> <span class="msg-text">This is an error</span></p>
+                            <p class="valid-msg"><i class="bi bi-check-circle"></i> <span class="msg-text">Seems okay</span></p>
                         </div>
                     </div>
                     <div class="form-action">
                         <input type="password" placeholder="Enter your password" name="password" id="password_login"/>
                         <div class="info-msg">
-                            <p class="error-msg"><i class="bi bi-exclamation-circle"></i> This is an error</p>
-                            <p class="valid-msg"><i class="bi bi-check-circle"></i> Valid</p>
+                            <p class="error-msg"><i class="bi bi-exclamation-circle"></i> <span class="msg-text">This is an error</span></p>
+                            <p class="valid-msg"><i class="bi bi-check-circle"></i> <span class="msg-text">Looks okay</span></p>
                         </div>
+                    </div>
+                    <div class="form-action">
+                        <input type="checkbox" name="stayloggedin" id="stayloggedin">
+                        <label for="stayloggedin">Remember me ?</label>
                     </div>
                     <a href="#">Forgot password?</a>
                     <input type="submit" class="button" value="Login" id="loginbtn"/>
@@ -42,43 +47,6 @@
                     </span>
                 </div>
             </div>
-            <div class="registration form">
-                <header>Signup</header>
-                <form action="#" id="register">
-                    <input
-                        type="text"
-                        placeholder="Choose a username"
-                        name="username"
-                        id="username_signup"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Enter your email"
-                        name="email"
-                        id="email_signup"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Create a password"
-                        name="password"
-                        id="password_signup"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirm your password"
-                        name="passwordretype"
-                        id="repassword_signup"
-                    />
-                    <input type="button" class="button" value="Signup" id="signupbtn"/>
-                </form>
-                <div class="signup">
-                    <span class="signup"
-                        >Already have an account?
-                        <label for="check">Login</label>
-                    </span>
-                </div>
-            </div>
-        </div>
 
         <script src="js/loginPage.js"></script>
     </body>
