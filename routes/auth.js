@@ -4,12 +4,13 @@ import User from "../models/User.js";
 import VerificationToken from "../models/VerificationToken.js";
 import crypto from "crypto";
 import MailController from "../controllers/mailController.js";
+import {checkIn} from "../controllers/protectionMiddleware.js";
 
 const auth = new Router();
 auth.use(express.static("static"));
 
 auth.get("/login", async (req, res) => {
-    console.log(req.logout);
+    if (req.session.uuid) return res.redirect('/profile/');
     res.render("login");
 });
 
@@ -34,17 +35,16 @@ auth.post("/login", async (req, res) => {
     if (user == null)
         return res.status(404).send({ message: "User not found" });
     const test = await checkPassword(password, user.password);
-    if (!test) return res.status(403).send({ message: "Invalid password" });
-    if (!user.emailVerified) return res.status(403).send({message: "You must first verify your email"})
+    if (!test) return res.status(403).send({ type: "password", message: "Invalid password" });
     // set session data and redirect to dashboard
     req.session.uuid = user.uuid;
     if (rememberMe) req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
-    console.log(`${user.email} logged in`);
     res.status(200).send({message: "logged in", loggedin: true})
 });
 
 // Registering
 auth.get('/register', (req, res) => {
+    if (req.session.uuid) return res.redirect('/profile/');
     res.render('register')
 })
 
@@ -110,8 +110,6 @@ auth.post('/register', async (req, res) => {
     });
 
     MailController.sendVerificationMail(verToken.token, username, email);
-
-    console.log("Created new user with uuid : " + user.uuid);
     res.status(201).send({message: "User created", username, email})
 })
 
@@ -120,6 +118,65 @@ auth.get('/logout', (req, res) => {
         req.logout = true;
         res.redirect('/auth/login');
     })
+})
+
+auth.get('/verify/:token', async (req, res) => {
+    if (!req.session.uuid) { return res.redirect('/auth/login')};
+    const user = await User.findOne({where: {uuid: req.session.uuid}});
+    if(user == null) {
+        req.sessionErrorMessage = "Invalid session";
+        res.redirect('/auth/login');
+        return;
+    }
+    if (user.emailVerified) return res.redirect('/profile');
+    const token = req.params.token;
+    const tk = await VerificationToken.findOne({where: {uuid: user.uuid}});
+    if (tk == null) return res.redirect('/auth/error/invalidToken');
+    if (tk.token != token) return res.redirect('/auth/error/invalidToken');
+    tk.destroy();
+    user.emailVerified = true;
+    user.save();
+    res.render('authError/emailSuccess')
+})
+
+auth.post('/resendEmail', async (req, res) => {
+    if (!req.session.uuid) { return res.status(403).send('/auth/login')};
+    const user = await User.findOne({where: {uuid: req.session.uuid}});
+    if (user == null) return res.status(404).send("/auth/login");
+    const vertoken = await VerificationToken.findOne({where: {uuid: req.session.uuid}});
+    if (user.emailVerified) return res.status(409).send({error: "Email alredy verified"});
+    if (vertoken != null ) vertoken.destroy();
+    let tok = "";
+    while(true){
+        tok = crypto.randomBytes(32).toString('hex')
+        const exists = await VerificationToken.findAndCountAll({where: {token: tok}});
+        if(exists.count == 0){
+            break;
+        }
+    }
+    const tk = await VerificationToken.create({uuid: user.uuid, token: tok});
+    MailController.sendVerificationMail(tok, user.username, user.email);
+    res.status(201).send({message: "Mail sent successfully"});
+})
+
+
+auth.get("/erorr/:error", async (req, res) => {
+    let error = req.params.error;
+    switch (error) {
+        case "emailverification":
+            if (!req.session.uuid) return res.redirect('/auth/login');
+            const user = await User.findByPk(req.session.uuid);
+            if (user == null) return res.redirect('/auth/logout')
+            if (user.emailVerified) return res.redirect("/profile");
+            return res.render('authError/error', {heading: "Please verify your email", paragraph: "Check your inbox for the confirmation email. Also make sure to check the spams. If you don't see the mail, please click the link down below to resend email.", btn_text: "Resend email", btn_active: true, btn_action: "POST", btn_target:"/auth/resendEmail"});
+            break;
+        case "invalidToken":
+            return res.render('authError/error', {heading: "Invalid token", paragraph: "The provided token is invalid, please click the button down below to recieve a new one", btn_text: "Resend email", btn_active: true, btn_action: "POST", btn_target:"/auth/resendEmail"});
+            break;
+        default:
+            return res.redirect('/auth/login');
+            break;
+    }
 })
 
 function isEmailValid(email) {

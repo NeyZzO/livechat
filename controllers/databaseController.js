@@ -8,7 +8,7 @@ class Database {
         const {DB_USER, DB_PASS, DB_PORT, DB_DIALECT, DB_NAME, DB_HOST} = process.env;
         try {
             this.con = new Sequelize(
-                `${DB_DIALECT}://${DB_USER}:${DB_PASS}@${DB_HOST}${DB_PORT != null?':' + DB_PORT:''}/${DB_NAME}`
+                `${DB_DIALECT}://${DB_USER}:${DB_PASS}@${DB_HOST}${DB_PORT != null?':' + DB_PORT:''}/${DB_NAME}`, {logging: false}
             );
             console.log("Connexion à la base de données établie avec succès.");
         } catch (err) {

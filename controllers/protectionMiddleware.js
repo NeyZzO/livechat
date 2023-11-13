@@ -8,6 +8,7 @@ export async function checkIn(req, res, next){
         res.redirect('/auth/login');
         return;
     }
+    if (!user.emailVerified) return res.redirect('/auth/erorr/emailverification')
     req.user = user;
     next();
 }

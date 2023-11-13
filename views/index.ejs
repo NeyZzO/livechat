@@ -1,27 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <title>Mon sublime chat</title>
-</head>
-<body>
-    <div id="main">
-        <div id="timer">
-            <p><i class="bi bi-clock"></i> <span id="mins">mm</span>:<span id="secs">ss</span></p>
-        </div>
-        <div id="controls">
-            <button id="start"><i class="fa-solid fa-play"></i></button>
-            <button id="pause"><i class="fa-solid fa-pause"></i></button>
-            <button id="rewind"><i class="fa-solid fa-backward"></i></button>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Chats</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="http://localhost:3000/static/css/index.css">
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    </head>
+    <body>
+        <nav class="menu">
+            <div class="nav-header"><h1>Dago<span style="color: #009579;">Chat</span></h1></div>
+            <div class="separator"></div>
+            <div class="conversations">
+                <div class="conversation active" data-convid="dummy">
+                    <img src="<%= avatar %>" alt="" class="img-fluid conv-pic">
+                    <div class="details">
+                        <h4>Dummy 1</h4>
+                        <p class="lastActivity secondary">@john: Lorem, ipsum dolor.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="profile">
+                <div class="content">
+                    <img id="avatar" alt="" src="<%= avatar %>"/>
+                    <div class="infos">
+                        <div class="personal">
+                            <div class="first-name">John</div>
+                            <div class="last-name">Doe</div>
+                        </div>
+                        <div class="username">@<%= username %> <% if (certified) { %><i class="bi bi-patch-check-fill" style="color: #009579; font-size: .8rem"></i><% } %> <% if (rank == 1) { %>
+                            <i class="bi bi-shield-fill-check" style="color: #004a95"></i>
+                        <% } else if (rank == 2) {%> 
+                            <i class="bi bi-shield-fill-check" style="color: #950000"></i>
+            
+                        <% } %></div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <div class="profile-action"><i class="bi bi-person-fill"></i></div>
+                    <div class="profile-action"><i class="bi bi-person-fill"></i></div>
+                    <div class="profile-action"><i class="bi bi-list"></i></div>
+                    <a href="/auth/logout" class="profile-action"><i class="bi bi-box-arrow-right" style="color: red;"></i></a>
+                </div>
+            </div>
+        </nav>
+        <div id="activeConversation">
+            <div id="header">
+                <img src="http://localhost:3000/static/imgs/wa.png" alt="" class="groupIcon">
+                <h5>Dummy Convo</h5>
+                <div class="conv-actions">
+                    <div class="call"><i class="bi bi-telephone-fill"></i></div>
+                    <div class="videocall"><i class="bi bi-camera-video-fill"></i></div>
+                    <div class="more"><i class="bi bi-three-dots-vertical"></i></div>
+                </div>
+            </div>
+            <div id="messages">
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                
 
+                <div class="message self">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message self">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message self">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+
+                <div class="convo-activity">
+                    <div class="content">
+                        <em>15:25 -</em> <strong>Tata Suzette</strong> a quitté le groupe.
+                    </div>
+                </div>
+
+                <div class="message self">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+                <div class="message">
+                    <div class="sender">Jacques Dupont</div>
+                    <div class="content">Hello World</div>
+                    <div class="details">30 min</div>
+                </div>
+
+                
+            </div>
+            <div class="actions">
+                <button id="emojis"><i class="bi bi-emoji-smile-fill"></i></button>
+                <form action="" id="sendMessages">
+                    <input type="text" name="message" id="msg-input" placeholder="Tapez votre message ici" autocomplete="off">
+                </form>
+                <button onclick="$('#sendMessages').submit(); return false;"><i class="bi bi-send-fill"></i></button>
+            </div>
         </div>
-    </div>
-    <script src="js/app.js"></script>
-</body>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+
+        <script src="http://localhost:3000/static/js/index.js"></script>
+
+    </body>
 </html>

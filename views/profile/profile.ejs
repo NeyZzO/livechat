@@ -8,7 +8,7 @@
 </head>
 <body>
     <img src="http://localhost:3000/profile/avatar/<%= uuid %>" alt="photo de profil" srcset="">
-    <h1><%= username %><% if (certified){ %> <i class="bi bi-patch-check-fill" style="color: #009579; background-color: #009579;"></i><% } %></h1>
+    <h1><%= username %><% if (certified){ %> <i class="bi bi-patch-check-fill" style="color: #009579;"></i><% } %></h1>
     <h3><%= email %></h3>
     <% if (rank == 1) { %>
         <p style="color: green;">Moderateur</p>

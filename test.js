@@ -23,3 +23,5 @@ import User from "./models/User.js";
         console.error(err)
     }
 })(); 
+
+process.exit(1);

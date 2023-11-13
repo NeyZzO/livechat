@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dagochat - Error</title>
+        <link rel="stylesheet" href="http://localhost:3000/static/css/authError.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <div class="toast">
+  
+            <div class="toast-content">
+                <i class="fa-solid fa-envelope check"></i>
+          
+              <div class="message">
+                <span class="text text-1">Success</span>
+                <span class="text text-2">Email has been sent</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-xmark close"></i>
+          
+            <!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
+            <div class="progress active"></div>
+          </div>
+        <main>
+            <h2><%= heading %></h2>
+            <p><%= paragraph %></p>
+            <button data-action="<%= btn_action %>" data-target="<%= btn_target %>"><%= btn_text %></button>
+        </main>
+
+        <script src="http://localhost:3000/static/js/authError.js"></script>
+    </body>
+</html>

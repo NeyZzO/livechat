@@ -10,9 +10,13 @@ Database.startDatabase();
 
 VerificationToken.init({
     uuid: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false,
         unique: true,
+        references: {
+            model: User,
+            key: 'uuid'
+        }
     },
     token: {
         type: DataTypes.STRING, // Le type de données dépend de votre application

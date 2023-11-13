@@ -15,6 +15,8 @@ import dotenv from 'dotenv';
 import serveFavicon from "serve-favicon";
 import path from "path";
 import MailController from "./controllers/mailController.js";
+import files from "./routes/static.js";
+import index from "./routes/index.js";
 dotenv.config();
 const mstore = MySQLStore(session);
 
@@ -43,14 +45,16 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com", "'unsafe-inline'"],
-            styleSrc: ["'self'", 'https://cdnjs.cloudflare.com/', 'fonts.googleapis.com', 'https://cdn.jsdelivr.net'],
+            scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com", "'unsafe-inline'", "https://cdn.tailwindcss.com", 'https://cdn.jsdelivr.net/'],
+            styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/', 'fonts.googleapis.com', 'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net/'],
+            imgSrc: ["'self'", "https://cdn.dribbble.com/"]
         }
     }
 }));
+app.use(serveFavicon(path.resolve('static/wa.png')));
 app.use(morgan("combined"));
 app.set("view engine", "ejs");
-app.use(session({
+const sess = session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -62,23 +66,29 @@ app.use(session({
         domain: "localhost",
         sameSite: true,
     }
-}))
+})
+app.use(sess)
+
+io.engine.use(sess)
+
+// Routeurs
 app.use('/auth', auth);
 app.use('/profile', profile);
-app.use(serveFavicon(path.resolve('static/wa.png')));
-
-app.get("/", (req, res) => {
-    res.render("index");
-})
-
+app.use('/static/', files);
+app.use('/', index)
 
 MailController.startController();
 
 
 io.on('connection', (socket) => {
-    console.log("New user connected to socket");
+    console.log("User with uuid : " + socket.request.session.uuid + " connected.");
     socket.on("disconnect", () => {
         console.log("A user disconnected")
+    });
+
+    socket.on("message", (message) => {
+        console.log('Un nouveau message : ' + message);
+        console.log(socket)
     })
 })
 

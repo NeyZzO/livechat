@@ -1,0 +1,303 @@
+* {
+    /* outline: 1px solid red; */
+}
+
+body {
+    overflow: hidden;
+}
+
+nav {
+    background-color: beige;
+    position: absolute;
+    width: 20%;
+    /* outline: 1px solid red; */
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid grey;
+}
+
+.separator {
+    align-self: center;
+    width: 75% !important;
+    height: 3px !important;
+    background-color: grey;
+}
+
+nav .nav-header {
+    text-align: center;
+    padding: 10px
+}
+
+.conversations {
+    margin-top: 5px;
+    flex-grow: 4;
+}
+
+.conversation {
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.conversation:is(.active) {
+    background-color: white;
+}
+
+.conversation img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+}
+
+.conversation .details {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    margin-left: 15px;
+    justify-content: center;
+    /* align-items: left; */
+}
+
+.conversation .details .lastActivity {
+    margin: 0;
+    margin-top: -13px;
+    font-size: 0.8rem;
+}
+.profile {
+    border-top: 1px solid grey;
+    justify-self: flex-end;
+}
+
+.profile .content{
+    display: flex;
+}
+
+.profile .content img {
+    width: 3rem;
+    height: 3rem;
+}
+
+.profile .content .infos {
+    margin-left: 10px;
+}
+
+.profile .content .infos .personal {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+}
+
+.profile .content .infos .personal :last-child {
+    margin-left: 3px;
+}
+
+
+.profile .profile-actions {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.profile-action {
+    padding: 5px;
+    width: 25%;
+    text-align: center;
+}
+
+#activeConversation {
+    height: 100%;
+    position: absolute;
+    width: 80%;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#activeConversation #header {
+    display: flex;
+    height: 3rem;
+    align-items: center !important;
+    border-bottom: 1px solid grey;
+    justify-content: center;
+}
+#activeConversation #header * {
+    /* outline: 1px solid green; */
+}
+
+#activeConversation #header img {
+    width: 3rem;
+    margin-left: 10px;
+    padding: 5px;
+    height: 3rem;
+}
+
+#activeConversation #header h5 {
+    font-size: 1.8rem;
+    margin-left: 3rem;
+    /* padding: 5px; */
+    justify-content: center !important;
+    flex-grow: 4;
+    align-items: center !important;
+
+}
+
+
+#activeConversation #header .conv-actions {
+    display: flex;
+}
+#activeConversation #header .conv-actions * {
+    color: #009579;
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin: 0 4px;
+    justify-content: center;
+}
+
+#messages {
+    /* outline: 1px solid blue; */
+    width: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    max-height: 88%;
+    scroll-behavior: smooth;
+}
+
+.message {
+    background-color: #505850;
+    padding: 5px 10px;
+    border-radius: 0px 8px 8px 8px;
+    color: white;
+    margin-top: 10px;
+    margin-left: 20px;
+    width: fit-content;
+    max-width: 30rem;
+    position: relative;
+    min-width: 10rem;
+    margin-bottom: 10px;
+}
+
+.message .sender {
+    color: #008d95;
+    text-align: left;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.message .details {
+    text-align: right;
+    font-size: smaller;
+    color: lightgrey;
+    font-style: italic;
+}
+
+.message:not(.self)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -12px;
+    width: 0;
+    height: 0;
+    transform: rotate(180deg);
+    border-top: 12px solid transparent;
+    border-left: 12px solid #505850;
+}
+
+
+.message.self {
+    display: block;
+    margin-left: 0;
+    margin-right: 20px;
+    background-color: #009579;
+    border-radius: 8px 0px 8px 8px;
+    float: right;
+    max-width: 30rem;
+    /* width: 30rem; */
+    align-self: flex-end;
+    min-width: 10rem;
+}
+
+.message.self .sender {
+    display: none;
+}
+
+.message.self::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -12px;
+    width: 0;
+    height: 0;
+    transform: rotate(180deg);
+
+    border-top: 12px solid transparent;
+    border-right: 12px solid #009579;
+    align-self: flex-end;
+}
+
+.convo-activity {
+    padding: 10px;
+    font-size: small;
+    color: gray;
+    background-color: #F3F3F3;
+    width: fit-content;
+    align-self: center;
+    border-radius: 10px
+}
+
+#activeConversation .actions {
+    border-top: 1px solid grey;
+    display: flex;
+    height: 10%;
+    outline: 1px solid yellow;
+    align-items: center;
+}
+
+#activeConversation .actions form {
+    flex-grow: 10;
+}
+
+#activeConversation .actions input {
+    justify-items: center;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #505850;
+}
+
+#activeConversation .actions input:is(:active, :focus) {
+    border-bottom: 2px solid #009579;
+}
+
+#activeConversation .actions button  {
+    background:none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    padding: 8px;
+    width: 45px;
+    /* height: 10px; */
+    color: grey;
+    transition:ease-in 10ms;
+    border-radius: 100%;
+}  
+
+#activeConversation .actions button:hover  {
+    color:#009579;
+    background-color: #50585047;
+}     
+
+@media screen and (max-width: 767px) {
+    #activeConversation {
+        width: 100%;
+    }
+    nav {
+        display: none; /* Masquer l'élément sur les écrans de petite taille */
+    }
+}
