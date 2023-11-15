@@ -1,0 +1,4 @@
+# 14/11/23
++ messsageController: Recieve messages, adds them to the database
++ dynamicly load messages
++ working sockets for 1 conv only

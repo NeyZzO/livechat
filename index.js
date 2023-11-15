@@ -17,6 +17,8 @@ import path from "path";
 import MailController from "./controllers/mailController.js";
 import files from "./routes/static.js";
 import index from "./routes/index.js";
+import User from "./models/User.js";
+import MessageController from "./controllers/messageController.js";
 dotenv.config();
 const mstore = MySQLStore(session);
 
@@ -86,10 +88,7 @@ io.on('connection', (socket) => {
         console.log("A user disconnected")
     });
 
-    socket.on("message", (message) => {
-        console.log('Un nouveau message : ' + message);
-        console.log(socket)
-    })
+    socket.on("message", (msg) => new MessageController(io, socket, msg))
 })
 
 server.listen(3000, () => {
