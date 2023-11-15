@@ -94,4 +94,12 @@ io.on('connection', (socket) => {
 
 server.listen(3000, () => {
     console.log(chalk.green('Server started listening on port 3000'))
+    setTerminalTitle("DagoChat")
 })
+
+function setTerminalTitle(title)
+{
+  process.stdout.write(
+    String.fromCharCode(27) + "]0;" + title + String.fromCharCode(7)
+  );
+}
