@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 import chalk from "chalk";
-import {Server} from "socket.io";
 import {createServer} from "node:http";
 import session from "express-session";
 import auth from "./routes/auth.js";
@@ -19,7 +18,9 @@ import files from "./routes/static.js";
 import index from "./routes/index.js";
 import User from "./models/User.js";
 import MessageController from "./controllers/messageController.js";
+import SocketController from "./controllers/socketController.js";
 dotenv.config();
+
 const mstore = MySQLStore(session);
 
 const options = {
@@ -34,7 +35,7 @@ const sessionStore = new mstore(options);
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = SocketController.StartSocket(server);
 (async () => {
     await Database.startDatabase();
 })();
@@ -49,7 +50,7 @@ app.use(helmet({
             defaultSrc: ["'self'"],
             scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com", "'unsafe-inline'", "https://cdn.tailwindcss.com", 'https://cdn.jsdelivr.net/'],
             styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/', 'fonts.googleapis.com', 'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net/'],
-            imgSrc: ["'self'", "https://cdn.dribbble.com/"]
+            imgSrc: ["'self'", "https://cdn.dribbble.com/", "https://api.dicebear.com/"]
         }
     }
 }));

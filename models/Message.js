@@ -26,6 +26,8 @@ Message.init({
     }
 }, {
     sequelize: Database.getCon(),
+    collate: "utf8mb4_unicode_ci",
+    tableName: "messages"
 });
 
 Message.belongsTo(User, {foreignKey: 'uuid'});

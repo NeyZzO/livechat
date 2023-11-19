@@ -105,7 +105,7 @@ nav .nav-header {
 
 .profile-action {
     padding: 5px;
-    width: 25%;
+    width: calc(100%/3);
     text-align: center;
 }
 
@@ -164,8 +164,8 @@ nav .nav-header {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    height: 88%;
-    max-height: 88%;
+    height: 96%;
+    max-height: 96%;
     scroll-behavior: smooth;
 
 }
@@ -256,6 +256,7 @@ nav .nav-header {
     border-top: 1px solid grey;
     display: flex;
     height: 10%;
+    min-height: 3rem;
     /* outline: 1px solid yellow; */
     align-items: center;
 }

@@ -27,10 +27,6 @@ User.init({
         type: DataTypes.STRING(64),
         allowNull: false
     },
-    profilePicture: {
-        type: DataTypes.TEXT,
-        defaultValue: "default-user.png"
-    },
     emailVerified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -46,11 +42,13 @@ User.init({
     }
 }, {
     sequelize: Database.getCon(),
-    tableName: "users"
+    tableName: "users",
+    collate: "utf8mb4_unicode_ci"
 });
 
 (async () => {
     await User.sync();
+    
 })();
 
 export default User;
