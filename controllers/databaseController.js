@@ -7,7 +7,7 @@ class Database {
     static startDatabase() {
         const {DB_USER, DB_PASS, DB_PORT, DB_DIALECT, DB_NAME, DB_HOST} = process.env;
         try {
-            this.con = new Sequelize(
+            Database.con = new Sequelize(
                 `${DB_DIALECT}://${DB_USER}:${DB_PASS}@${DB_HOST}${DB_PORT != null?':' + DB_PORT:''}/${DB_NAME}`, {logging: false}
             );
             console.log("Connexion à la base de données établie avec succès.");
@@ -18,12 +18,12 @@ class Database {
     }
 
     static getCon() {
-        return this.con;
+        return Database.con;
     }
 
     static async testConnection() {
         try {
-            await this.con.authenticate();
+            await Database.con.authenticate();
             return true;
         } catch (err) {
             console.error("Erreur lors de la connection à la base de données");

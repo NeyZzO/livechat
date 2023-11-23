@@ -8,6 +8,7 @@ import randomColor from "randomcolor";
 import random from "random";
 import helmet from "helmet";
 import multer from "multer";
+import FilesController from "../controllers/filesController.js";
 
 const profile = Router();
 profile.use(serveFavicon(path.resolve("static/wa.png")));
@@ -29,9 +30,15 @@ const storage = multer.diskStorage({
         const extname = path.extname(file.originalname);
         const newFilename = `${req.user.uuid}${extname}`;
         callback(null, newFilename)
+    },
+})
+const upload = multer({
+    storage: storage, 
+    fileFilter: (req, file, cb) => {
+        if (file.originalname.endsWith('.png') || file.originalname.endsWith('.jpeg') || file.originalname.endsWith('.jpg') || file.originalname.endsWith('.gif') || file.originalname.endsWith('.webp')) cb(null, true);
+        else cb(null, false);
     }
 })
-const upload = multer({storage: storage})
 
 profile.get('/', checkIn, async (req, res) =>{
     const {username, email, rank, profilePicture, uuid, certified} = req.user;
@@ -60,6 +67,8 @@ profile.get('/picture/random', checkIn, async (req, res) => res.json(`https://ap
 
 profile.post('/create', checkIn, upload.single('profilePicture'), async (req, res) => {
     console.log(req.body);
+    // console.log(req.file);
+    FilesController.checkImageEncoding(path.resolve(req.file.path));
     res.status(200).send('ok')
 })
 
@@ -74,5 +83,7 @@ function randSeed(length) {
     }
     return result;
 }
+
+
 
 export default profile;

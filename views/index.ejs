@@ -37,10 +37,10 @@
                             <div class="first-name">John</div>
                             <div class="last-name">Doe</div>
                         </div>
-                        <div class="username">@<%= username %> <% if (certified) { %><i class="bi bi-patch-check-fill" style="color: #009579; font-size: .8rem"></i><% } %> <% if (rank == 1) { %>
-                            <i class="bi bi-shield-fill-check" style="color: #004a95"></i>
+                        <div class="username">@<%= username %> <% if (certified) { %><i class="bi bi-patch-check-fill" style="color: #009579; font-size: .8rem" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Certified"></i><% } %> <% if (rank == 1) { %>
+                            <i class="bi bi-shield-fill-check" style="color: #004a95" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Moderator"></i>
                         <% } else if (rank == 2) {%> 
-                            <i class="bi bi-shield-fill-check" style="color: #950000"></i>
+                            <i class="bi bi-shield-fill-check" style="color: #950000" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Administrator"></i>
             
                         <% } %></div>
                     </div>

@@ -1,6 +1,9 @@
 // import { Socket } from "socket.io";
 
 $(async () => {
+
+    
+
     const socket = await io();
     socket.on('connect', () => {
         console.log('Connected to socket');
@@ -35,13 +38,13 @@ $(async () => {
         <div class="message ${(testA || testB)?"self":""}">
             <div class="sender">${msg.user.username} ${
             msg.user.crt
-                ? '<i class="bi bi-patch-check-fill" style="color: #009579; font-size: .8rem"></i>'
+                ? '<i class="bi bi-patch-check-fill" style="color: #009579; font-size: .8rem" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Certified"></i>'
                 : ""
         } ${
             msg.user.rk == 2
-                ? '<i class="bi bi-shield-fill-check" style="color: #950000"></i>'
+                ? '<i class="bi bi-shield-fill-check" style="color: #950000" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Administrator"></i>'
                 : msg.user.rk == 1
-                ? '<i class="bi bi-shield-fill-check" style="color: #004a95"></i>'
+                ? '<i class="bi bi-shield-fill-check" style="color: #004a95" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Moderator"></i>'
                 : ""
         }</div>
             <div class="content">${msg.content}</div>
@@ -49,6 +52,8 @@ $(async () => {
         </div>
         `);
         scrollBtm();
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     }
 
     function scrollBtm() {
@@ -120,4 +125,7 @@ $(async () => {
             )}/${date.getFullYear().toString().slice(2, 4)}`;
         }
     }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });

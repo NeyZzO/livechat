@@ -18,13 +18,15 @@
 
         <main class="container">
             <form id="profileCreator">
-                <div id="profilepic">
-                    <input type="file" name="profilePicture" id="ppicinpt" accept="image/png, image/jpeg">
-                    <img src="<%= randomppic %>" alt="" id="ppicpreview">
-                    <a id="randomizepic">randomize</a>
+                <div class="row">
+                    <div id="profilepic" class="col-md-3">
+                        <input type="file" name="profilePicture" id="ppicinpt" accept="image/png, image/jpeg">
+                        <img src="<%= randomppic %>" alt="" id="ppicpreview" class="img-responsive">
+                        <a id="randomizepic">randomize</a>
+                    </div>
+                    <input type="text" name="first_name" id="firstname" class="form-control">
+                    <input type="submit" value="sbmt" class="btn btn-primary">
                 </div>
-                <input type="text" name="first_name" id="firstname" class="form-control">
-                <input type="submit" value="sbmt" class="btn btn-primary">
             </form>
         </main>
         

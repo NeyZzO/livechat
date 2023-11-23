@@ -29,7 +29,7 @@ class MailController {
             from: 'no-reply@dagochat.net', // L'adresse e-mail de l'expéditeur
             to: email, // L'adresse e-mail du destinataire
             subject: 'Please verify your email', // Sujet de l'e-mail
-            text: content, // Contenu de l'e-mail au format texte
+            html: content, // Contenu de l'e-mail au format texte
             // html: '<p>Bonjour, ceci est un e-mail de test envoyé depuis Node.js et MailHog.</p>', // Contenu de l'e-mail au format HTML
         };    
         console.log(content)

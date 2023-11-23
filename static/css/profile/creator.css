@@ -35,3 +35,14 @@ a#randomizepic {
 img {
     cursor: pointer;
 }
+
+#profilepic {
+    display: flex;
+    flex-direction: column;
+}
+
+#profilepic a {
+    width: 25vh;
+    text-align: center;
+    font-size: .8rem;
+}
