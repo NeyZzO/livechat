@@ -7,6 +7,7 @@ import serveFavicon from "serve-favicon";
 import randomColor from "randomcolor";
 import random from "random";
 import helmet from "helmet";
+import multer from "multer";
 
 const profile = Router();
 profile.use(serveFavicon(path.resolve("static/wa.png")));
@@ -21,6 +22,17 @@ profile.use(helmet({
         }
     }
 }));
+
+const storage = multer.diskStorage({
+    destination: 'storage/avatars/',
+    filename: (req, file, callback) => {
+        const extname = path.extname(file.originalname);
+        const newFilename = `${req.user.uuid}${extname}`;
+        callback(null, newFilename)
+    }
+})
+const upload = multer({storage: storage})
+
 profile.get('/', checkIn, async (req, res) =>{
     const {username, email, rank, profilePicture, uuid, certified} = req.user;
     res.render('profile/profile.ejs', {username, email, rank, profilePicture, uuid, certified})
@@ -44,7 +56,12 @@ profile.get('/create', checkIn, async (req, res) => {
 })
 
 
-profile.get('/picture/random', checkIn, async (req, res) => res.json(`https://api.dicebear.com/7.x/croodles/svg?seed=${randSeed(random.int(1, 100))}&backgroundColor=${randomColor().replace('#', "")}`))
+profile.get('/picture/random', checkIn, async (req, res) => res.json(`https://api.dicebear.com/7.x/croodles/svg?seed=${randSeed(random.int(1, 100))}&backgroundColor=${randomColor().replace('#', "")}`));
+
+profile.post('/create', checkIn, upload.single('profilePicture'), async (req, res) => {
+    console.log(req.body);
+    res.status(200).send('ok')
+})
 
 function randSeed(length) {
     let result = '';
