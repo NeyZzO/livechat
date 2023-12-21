@@ -17,8 +17,8 @@ profile.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com", "'unsafe-inline'", "https://cdn.tailwindcss.com", 'https://cdn.jsdelivr.net/'],
-            styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/', 'fonts.googleapis.com', 'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net/'],
+            scriptSrc: ["'self'", 'https://cdn.socket.io/', "https://code.jquery.com", "'unsafe-inline'", "https://cdn.tailwindcss.com", 'https://cdn.jsdelivr.net/', 'https://cdn.quilljs.com/'],
+            styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/', 'fonts.googleapis.com', 'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net/', 'https://cdn.quilljs.com/'],
             imgSrc: ["'self'", "https://cdn.dribbble.com/", "https://api.dicebear.com/", "data:"]
         }
     }
@@ -68,7 +68,10 @@ profile.get('/picture/random', checkIn, async (req, res) => res.json(`https://ap
 profile.post('/create', checkIn, upload.single('profilePicture'), async (req, res) => {
     console.log(req.body);
     // console.log(req.file);
-    FilesController.checkImageEncoding(path.resolve(req.file.path));
+    let retval;
+    if (!(req.body.profilePicture && req.body.profilePicture.startsWith('https://api.dicebear.com/7.x/croodles/svg?seed='))) retval = FilesController.checkImageEncoding(path.resolve(req.file.path));
+    if (!retval) return res.status(400).json({field: "profilePicture", error: "Invalid file format"});
+    if (req.body.profilePicture && !req.body.profilePicture.startsWith('https://api.dicebear.com/7.x/croodles/svg?seed=')) return res.status(400).json({field: "profilePicture", error: "Invalid file."});
     res.status(200).send('ok')
 })
 

@@ -24,7 +24,8 @@ class FilesController {
             console.log('Type d\'image : WebP');
         } else {
             console.log('Type d\'image non pris en charge');
-        }        
+        }
+        return isJPEG || isPNG || isGIF || isWebP   
     }
 }
 
