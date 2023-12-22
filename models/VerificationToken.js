@@ -25,7 +25,8 @@ VerificationToken.init({
     }
 }, {
     sequelize: Database.getCon(),
-    tableName: "verification_tokens"
+    tableName: "verification_tokens",
+    collate: "utf8mb4_unicode_ci"
 });
 
 (async () => {
